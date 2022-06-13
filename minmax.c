@@ -2,11 +2,9 @@
 #include <stdio.h>
 
 int max, min;
-int arr[] = {3, 4, 5, 8, 9, 12, 16, 26};
-int n = sizeof(arr) / sizeof(arr[0]);
+int arr[100];
 
-void maxmin(int low, int up)
-
+void maxmin(int low, int up) 
 {
     int max1, min1, mid;
     if (low == up)
@@ -49,9 +47,20 @@ void maxmin(int low, int up)
 
 void main()
 {
+   
+    int i, n;
+    printf("\nEnter the total number of numbers: ");
+    scanf("%d", &n);
+    printf("Enter the numbers: ");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
     max = arr[0];
     min = arr[0];
-    maxmin(0, n);
+    maxmin(0, n - 1);
     printf("Minumum element in the array: %d\n", min);
     printf("Maximum element in the array: %d\n", max);
 }
+
+//=============================

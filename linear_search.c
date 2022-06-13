@@ -1,3 +1,5 @@
+//Linear Search =========================
+
 #include <stdio.h>
 
 int linear_search(int arr[], int item, int low, int up)
@@ -31,3 +33,5 @@ void main()
         printf("Element is present in the array at %d index.", index);
     }
 }
+
+//=============================

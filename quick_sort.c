@@ -1,4 +1,4 @@
-
+// Quick Sort ===============================
 #include <stdio.h>
 
 int partition(int arr[], int low, int up)
@@ -56,12 +56,17 @@ void printArr(int a[], int n)
 }
 void main()
 {
-    int n, item;
-    int arr[] = {9, 4, 6, 72, 8, 45, 13, 62, 74};
+    int n,i, item;
+    int arr[100];
 
-    n = sizeof(arr) / sizeof(arr[0]);
+    printf("Enter the total numbers of element: ");
+    scanf("%d", &n);
+    printf("Enter the elements of the array:\n");
+    for(i=0;i<n;i++){
+        scanf("%d", &arr[i]);
+    }
+
     printf("\nBefore sorting array elements are - \n");
-
     printArr(arr, n);
 
     quicksort(arr, 0, n - 1);
@@ -69,3 +74,4 @@ void main()
 
     printArr(arr, n);
 }
+//=============================

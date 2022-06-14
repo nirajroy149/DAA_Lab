@@ -24,6 +24,7 @@ void print(int n)
                 printf("\t-");
         }
     }
+
 }
 int place(int row, int column)
 {

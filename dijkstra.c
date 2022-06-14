@@ -1,82 +1,47 @@
-// Dijkstra code =============================
-
 #include <stdio.h>
-#include <conio.h>
-#include <process.h>
-#include <string.h>
-#include <math.h>
-#define INF 999
-#define N 5
+#include <stdbool.h>
+#include <limits.h>
 
-int dijsktra(int cost[][N], int source, int target)
-{
-    int dist[N], prev[N], selected[N] = {0}, i, m, min, start, d, j;
-    char path[N];
-    for (i = 1; i < N; i++)
-    {
-        dist[i] = INF;
-        prev[i] = -1;
-    }
-    start = source;
-    selected[start] = 1;
-    dist[start] = 0;
-    while (selected[target] == 0)
-    {
-        min = INF;
-        m = 0;
-        for (i = 1; i < N; i++)
-        {
-            d = dist[start] + cost[start][i];
-            if (d < dist[i] && selected[i] == 0)
-            {
-                dist[i] = d;
-                prev[i] = start;
-            }
-            if (min > dist[i] && selected[i] == 0)
-            {
-                min = dist[i];
-                m = i;
-            }
-        }
-        start = m;
-        selected[start] = 1;
-    }
-    start = target;
-    j = 0;
-    while (start != -1)
-    {
-        path[j++] = start + 65;
-        start = prev[start];
-    }
-    path[j] = '\0';
-    strrev(path);
-    printf("\t%s", path);
-    return dist[target];
+int minDistance(int V, int dist[], bool sptSet[]) {
+    int min = INT_MAX, min_index;
+    for (int v = 0; v < V; v++)
+        if (sptSet[v] == 0 && dist[v] <= min)
+            min = dist[V], min_index = v;
+    return min_index;
 }
 
-int main()
-{
-    int cost[N][N], i, j, w, ch, co;
-    int source, target, x, y;
-    printf("\t The Shortest Path Algorithm ( DIJKSTRA'S ALGORITHM in C ) \n\n");
-    for (i = 1; i < N; i++)
-        for (j = 1; j < N; j++)
-            cost[i][j] = INF;
-    for (x = 1; x < N; x++)
-    {
-        for (y = x + 1; y < N; y++)
-        {
-            printf("Enter the weight of the path between nodes %d and %d: ", x, y);
-            scanf("%d", &w);
-            cost[x][y] = cost[y][x] = w;
-        }
-        printf("\n");
-    }
-    printf("\nEnter the source: ");
-    scanf("%d", &source);
-    printf("\nEnter the target: ");
-    scanf("%d", &target);
-    co = dijsktra(cost, source, target);
-    printf("\nThe Shortest Path: %d", co);
+void printSolution(int V, int dist[]) {
+    printf("\nVertex\t\tDistance from source\n");
+    for (int i = 0; i < V; i++)
+        printf("%d\t\t%d\n", i, dist[i]);
 }
-//==================================
+void dijkstra(int src, int V, int graph[V][V]) {
+    int dist[V];
+    bool sptSet[V];
+    for (int i = 0; i < V; i++) {
+        dist[i] = INT_MAX;
+        sptSet[i] = 0;
+    }
+    dist[src] = 0;
+    for (int count = 0; count < V - 1; count++) {
+        int u = minDistance(V, dist, sptSet);
+        sptSet[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v]) 
+                dist[v] = dist[u] + graph[u][v];
+    }
+    printSolution(V, dist);
+}
+
+void main()
+{
+    int V, source;
+    printf("Enter no. of vertices of the graph: "), scanf("%d", &V);
+    int graph[V][V];
+    printf("Enter the matrix of pairs(if there's no direct path then enter '0'): ");
+    for (int i = 0; i < V; i++)
+        for (int j = 0; j < V; j++)
+            scanf("%d", &graph[i][j]);
+    printf("Enter the source(in integer): "), scanf("%d", &source);
+    dijkstra(source, V, graph);
+}
